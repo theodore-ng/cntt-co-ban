@@ -1,0 +1,120 @@
+﻿chào các
+bạn Hôm nay chúng ta học cái bài về cái
+thiết lập mặc
+định trước khi chúng ta soạn thảo một
+văn bản thì thiết lập đó bao gồm thứ
+nhất là chúng ta sẽ chọn đơn vị đo
+lường đơng vị đau lượng này nó thể hiện
+cái dễ thấy nhất là trên kích
+thước chúng ta xác định lề và kích cỡ
+của các đối
+tượng TP thứ hai là chúng ta đặt lề cho
+văn bản và sau đó chúng ta chọn kích cỡ
+giấy thao Tảo thứ ba là chúng ta chọn
+Phong chữ kích cỡ và định dạng khoảng
+cách và tất cả những cái định dạng này
+đều là mặc định và bây giờ chúng ta thực
+hiện thao tác đầu tiên là chọn đơn vị đo
+lượng chúng ta vào thẻ file chọn
+option Sau đó chúng ta chọn thẻ Advance
+chúng ta r chuột qua bên phải chúng ta
+dùng kéo thanh cuộng xuống chúng ta tìm
+đến cái mục đây s ma in unit Off và
+chúng ta đổi đơn vị đo lượng ở đây có
+nhiều cái đơn vị đo lượng mặc định là in
+chúng ta có thể chọn cm coi hay mm Vân
+Vân ở đây mình sẽ chọn là
+Cm rồi ok đó là xong cái thao tác là
+chọn đơn vị đo lượt Để chúng ta qu con
+sát trên này đơn vị này là
+Cm rồi nội dung thứ hai đó là đặt lề cho
+văn bản và kích cờ của tră giấy thì
+chúng ta sẽ vào
+layout trong cái khung pay setup chúng
+ta nhấp vào nút này ra chuột đến nó có
+chữ là pay setup nhấp chuột vào chúng
+chấ chọn cái thẻ maging để đặt lề to bu
+là lề định và lề đại
+left là Lê trái và lề phải là lề phải và
+theo quy định của soạn thảo văn bản hình
+chính
+thì lề đỉnh lề đáy thì chúng ta có thể
+dùng là đến 2 đến 2.5 cm ở đây chúng ta
+dùng
+2 lề trái thì 2.5 đến 3 thì chúng ta sẽ
+dùng là 3 và L phải tương tự chúng ta
+chọn 2 như vậy ngy tắc dễ nhớ nhất khi
+chúng ta đặt lề cho một văn bản Hà chính
+đó là 2 2 3
+2 tiếp tục chúng ta sẽ chọn là payer để
+xác định kích cỡ của trong giấy và trong
+soá thảo văn bản hành chính thì paper
+side
+cũng là mặc định có một cái mặc định của
+nó t theo quy định của nó là kích cỡ A4
+rồi chúng ta nhắp chọn A4 Sau đó chúng
+ta chọn Ok Tuy nhiên để nó là những cái
+thông tin này nó là mặt định thì chúng
+ta chọn lên là set add default thiết lập
+mặc định nhấp
+vào và nó hỏi bạn muốn thiết lập mặc
+định hay không thì chúng ta chọn yes
+à xong đó là thao tác đặt lề và kích cỡ
+trang giấy mặc định thao tác thứ ba là
+chọn Phong chữ kích cỡ và định dạng
+khoảng cách dòng khoảng cách đoạn thì
+chúng ta sẽ vào thẻ
+home và trong cái khung Style chúng ta
+tìm đến cái cái Style có tên là nmo và
+trong trường hợp này nó hiển thị sẵn này
+một số trường hợp nó không có thì chúng
+ta sẽ nhấp vào nút Mall này để chúng ta
+tìm Mall này nhấp vào đây chúng ta tìm à
+tìm chúng ta tìm danh sắt chế này chắc
+chắn nó sẽ có vì đây là cái Style cơ bản
+trong gu rồi chúng ta tìm thấy thì chúng
+ta nhắc phải chuột vào nmo chúng ta chọn
+modify tiếp tục à tên và thuộc tính
+Style Follow này chúng ta để ý Vậy chúng
+ta chỉ thao tác trên thuộc tính
+formatting là định dạng thứ nhất là
+phong chữ chúng ta chọn kích cỡ tin
+Roman cũng theo quy định của văn bản
+hình chính kết Cỡ 12 hoặc
+13 và màu sắc thì chúng ta chọn màu auto
+có nghĩa là màu đen chúng ta muốn định
+dạng khoảng cách dòng khoảng cách đoạn
+thì chúng ta vào
+format chọn
+paragraph và cái mục spacing là khoảng
+cách đoạn before after Before là khoảng
+cách trước đoạn văn after là khoảng cách
+sau phía sau đón văng đây phía trước là
+đây phía sau đây và bây giờ chúng ta có
+thể thay đổi cái này ví dụ Chúng ta muốn
+là before và after đều 6pt thì chúng ta
+chọn 6pt nhấp vào các nút tăng giảm ở
+đây 6pt là tương đương với 1/2
+dòng đó là khoảng cách giữa các đoạn
+tiếp tục là khoảng cách giữa các dòng
+trong một đoạn thì chúng ta sẽ thao tác
+trên thộc tính là l spacing và multiple
+là 1,08 có nghĩa là Thông thường thì mặc
+định là 1 thôi là khoảng cách đơn chúng
+ta muốn tăng khoảng cách lên thì chúng
+ta sẽ nhập vào là 1,2 1,3 1,4 gì đó Ở
+đây mình sẽ nhập là 1,1 rồi Kết thúc thì
+chúng ta lại chọn Ok và chúng ta muốn
+những cái thiết lập này là cho những cái
+file word sau đó tức là thiết lập mặc
+định thì chúng ta sẽ chọn cái tùy chọn
+này nè Đó là new document b on play có
+nghĩa là cái tài liệu mới á là nó cũng
+dựa trên cái mẫu này nha và chúng ta
+chọn Ok để kết thúc và đó là ba cái bước
+ba cái thiết lập mặc
+định cơ bản trong trong guộc mà chúng ta
+cần phải phải lưu ý khi bắt đầu tràn
+Thảo có nghĩa là chúng ta cài đặt vuộc
+xong thì chúng ta sẽ làm cái này ha rồi
+đến đây là kết thúc chào các bạn
