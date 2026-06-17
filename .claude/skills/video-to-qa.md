@@ -88,9 +88,7 @@ Read frames in parallel batches of 5, skipping duplicates (the video often holds
 
 ### Step 6 — Write the Obsidian note
 
-Output file: `Notes/Ngân Hàng Câu Hỏi <Topic>.md`
-
-Group questions by topic (Word, Excel, PowerPoint, Internet, Windows, Bảo mật, Kiến thức chung). See output format below.
+Append to `Notes/QA Bank.md` (create if first run). Group questions by topic (Word, Excel, PowerPoint, Internet, Windows, Bảo mật, Kiến thức chung). See output format below.
 
 ### Step 7 — Clean up
 
@@ -102,7 +100,7 @@ Remove-Item -Recurse -Force "d:\Dev n Code\CNTT co ban\frames"
 
 ```markdown
 ---
-title: "Ngân Hàng Câu Hỏi <Topic>"
+title: "QA Bank"
 tags:
   - cntt-co-ban
   - trac-nghiem
@@ -110,7 +108,7 @@ tags:
 source: "<url>"
 ---
 
-# Ngân Hàng Câu Hỏi <Topic>
+# QA Bank
 
 > 🗂️ N câu · K chủ đề
 

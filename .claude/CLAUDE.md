@@ -14,7 +14,7 @@ CNTT co ban/
   README.md                    ← Windows pipeline guide + known errors
   .claude/
     CLAUDE.md                  ← you are here
-    skills/                    ← slash command skill specs
+    skills/                    ← Claude Code slash command skills (invoke with /skill-name)
       yt-playlist.md           ← /yt-playlist  (full pipeline)
       exam-notes.md            ← /exam-notes   (rewrite as cheat-sheets)
       yt-to-note.md            ← /yt-to-note   (single video)
@@ -37,10 +37,12 @@ CNTT co ban/
   playlist_info.txt            ← flat playlist dump (intermediate)
 ```
 
-## Available Skills
+## Slash Command Skills
 
-| Skill | Command | What it does |
-|-------|---------|-------------|
+Invoke any skill by typing `/skill-name` in Claude Code. Skill specs live in `.claude/skills/`.
+
+| Skill | Slash Command | What it does |
+|-------|--------------|-------------|
 | `yt-playlist` | `/yt-playlist <url> <name>` | Full playlist → exam notes (complete pipeline) |
 | `exam-notes` | `/exam-notes <name>` | Write/update lecture-specific exam script |
 | `yt-to-note` | `/yt-to-note <url>` | Single video → one note |

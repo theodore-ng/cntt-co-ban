@@ -26,13 +26,15 @@ Convert a single YouTube video into a structured Obsidian note.
 
 3. **Download Vietnamese subtitles**
    ```powershell
+   $env:PYTHONIOENCODING = "utf-8"
    $outDir = "d:\Dev n Code\CNTT co ban\transcripts"
    python -m yt_dlp --extractor-args "youtube:player_client=android,web" `
-     --write-auto-subs --sub-lang "vi" --skip-download --output "$outDir\%(title)s" "<URL>"
+     --write-auto-subs --sub-lang "vi" --skip-download `
+     --output "$outDir\%(title)s" "<URL>"
    ```
+   - `--extractor-args "youtube:player_client=android,web"` bypasses Chrome DPAPI and cookie errors
    - If `vi` subtitles are unavailable, fall back to `--sub-lang en`
    - Confirm the `.vi.vtt` file exists in `transcripts/`
-   - If subtitle download fails with `DPAPI` or cookie errors, the `android,web` client above bypasses them
 
 4. **Parse VTT to clean text**
    ```powershell
