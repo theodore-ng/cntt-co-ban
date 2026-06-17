@@ -28,12 +28,12 @@ tags:
 
 `Layout → Page Setup (↘) → Margins`
 
-| Vị trí | Giá trị |
-|--------|---------|
-| Top (Trên) | 2 cm |
-| Bottom (Dưới) | 2 cm |
-| Left (Trái) | **3 cm** |
-| Right (Phải) | 2 cm |
+| Vị trí        | Giá trị    |
+| ------------- | ---------- |
+| Top (Trên)    | 2 cm       |
+| Bottom (Dưới) | 2 cm       |
+| Left (Trái)   | **2.5 cm** |
+| Right (Phải)  | 1.5 cm     |
 
 > **Nhớ nhanh: 2 – 2 – 3 – 2**
 
@@ -53,11 +53,11 @@ Sau đó: `Paper → A4 → Set As Default → Yes`
 
 `Format → Paragraph → Spacing`
 
-| Thuộc tính | Giá trị |
-|-----------|---------|
-| Before | 6 pt |
-| After | 6 pt |
-| Line Spacing | Multiple → **1.1** |
+| Thuộc tính   | Giá trị             |
+| ------------ | ------------------- |
+| Before       | 6 pt                |
+| After        | 0 pt                |
+| Line Spacing | Multiple → **1.1**5 |
 
 Cuối cùng chọn **"New documents based on this template"** → OK
 

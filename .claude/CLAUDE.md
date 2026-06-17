@@ -14,11 +14,12 @@ CNTT co ban/
   README.md                    ← Windows pipeline guide + known errors
   .claude/
     CLAUDE.md                  ← you are here
-    commands/                  ← slash command skill specs
+    skills/                    ← slash command skill specs
       yt-playlist.md           ← /yt-playlist  (full pipeline)
       exam-notes.md            ← /exam-notes   (rewrite as cheat-sheets)
       yt-to-note.md            ← /yt-to-note   (single video)
       video-to-qa.md           ← /video-to-qa  (MCQ bank)
+      screenshot-to-qa.md      ← /screenshot-to-qa (screenshot → Q&A bank)
     scripts/                   ← Python pipeline scripts
       parse_vtt.py             ← parse raw VTT → clean text
       build_notes.py           ← (legacy) raw transcript notes
@@ -31,7 +32,7 @@ CNTT co ban/
     Word lecture/              ← 15 exam notes + index
     PowerPoint lecture/        ← 5 exam notes + index
     Excel lecture/             ← 8 exam notes + index
-    Ngân Hàng Câu Hỏi Trắc Nghiệm CNTT.md  ← 53-question MCQ bank
+    QA Bank.md                              ← MCQ bank (growing)
   transcripts/                 ← raw .vi.vtt files (intermediate, safe to delete)
   playlist_info.txt            ← flat playlist dump (intermediate)
 ```
@@ -44,6 +45,7 @@ CNTT co ban/
 | `exam-notes` | `/exam-notes <name>` | Write/update lecture-specific exam script |
 | `yt-to-note` | `/yt-to-note <url>` | Single video → one note |
 | `video-to-qa` | `/video-to-qa <url>` | Visual MCQ video → Q&A bank |
+| `screenshot-to-qa` | `/screenshot-to-qa <image-path>` | Screenshot of online exam → deduplicated Q&A added to bank |
 
 ## Lecture Pipeline (video has subtitles)
 
@@ -67,8 +69,11 @@ Each lecture gets its own dedicated exam script in `.claude/scripts/`:
 ## Q&A Bank Pipeline (video has no subtitles, MCQ slides)
 
 ```
-1. /video-to-qa  →  download video → extract frames (ffmpeg) → read Q&A → write bank note
+1. /video-to-qa      →  download video → extract frames (ffmpeg) → read Q&A → append to bank
+2. /screenshot-to-qa →  read screenshot → extract Q&A (answers already shown) → append to bank
 ```
+
+Bank file: `Notes/QA Bank.md`
 
 ## Key Rules
 
