@@ -2,6 +2,7 @@
 transcripts/
 playlist_info.txt
 frames/
+data/
 
 # Obsidian workspace state
 Notes/.obsidian/workspace.json
