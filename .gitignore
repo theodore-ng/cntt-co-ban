@@ -1,0 +1,7 @@
+# Intermediate pipeline files — safe to delete and regenerate
+transcripts/
+playlist_info.txt
+frames/
+
+# Obsidian workspace state
+Notes/.obsidian/workspace.json

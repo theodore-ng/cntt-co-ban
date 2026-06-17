@@ -11,62 +11,74 @@ Q&A banks are extracted from visual MCQ videos (no subtitles) using frame extrac
 
 ```
 CNTT co ban/
+  README.md                    ← Windows pipeline guide + known errors
   .claude/
     CLAUDE.md                  ← you are here
-    commands/                  ← custom slash commands
-      yt-to-note.md            ← /yt-to-note
-      yt-playlist.md           ← /yt-playlist
-      exam-notes.md            ← /exam-notes
-      video-to-qa.md           ← /video-to-qa
+    commands/                  ← slash command skill specs
+      yt-playlist.md           ← /yt-playlist  (full pipeline)
+      exam-notes.md            ← /exam-notes   (rewrite as cheat-sheets)
+      yt-to-note.md            ← /yt-to-note   (single video)
+      video-to-qa.md           ← /video-to-qa  (MCQ bank)
     scripts/                   ← Python pipeline scripts
       parse_vtt.py             ← parse raw VTT → clean text
-      build_notes.py           ← one raw note per video
-      merge_notes.py           ← merge into 4 part notes (legacy)
-      write_exam_notes.py      ← overwrite notes with exam cheat-sheets
+      build_notes.py           ← (legacy) raw transcript notes
+      write_exam_notes.py      ← Word lecture exam notes
+      write_ppt_exam_notes.py  ← PowerPoint lecture exam notes
+      write_excel_exam_notes.py← Excel lecture exam notes
     rules/
       obsidian-note-format.md  ← note structure & formatting spec
   Notes/
-    <Lecture name>/            ← one folder per course/playlist
-      <Lecture>.md             ← index note (mục lục + checklist)
-      1 - <Title>.md           ← exam note per video
-      2 - <Title>.md
-      ...
-    Ngân Hàng Câu Hỏi <Topic>.md  ← Q&A bank extracted from MCQ video
+    Word lecture/              ← 15 exam notes + index
+    PowerPoint lecture/        ← 5 exam notes + index
+    Excel lecture/             ← 8 exam notes + index
+    Ngân Hàng Câu Hỏi Trắc Nghiệm CNTT.md  ← 53-question MCQ bank
   transcripts/                 ← raw .vi.vtt files (intermediate, safe to delete)
   playlist_info.txt            ← flat playlist dump (intermediate)
 ```
 
-## Available Slash Commands
+## Available Skills
 
-| Command | What it does |
-|---------|-------------|
-| `/yt-to-note` | Single YouTube video (with subtitles) → one Obsidian note |
-| `/yt-playlist` | Full playlist → one raw note per video + index |
-| `/exam-notes` | Rewrite all notes as concise exam cheat-sheets |
-| `/video-to-qa` | Visual MCQ video (no subtitles) → Q&A bank note |
+| Skill | Command | What it does |
+|-------|---------|-------------|
+| `yt-playlist` | `/yt-playlist <url> <name>` | Full playlist → exam notes (complete pipeline) |
+| `exam-notes` | `/exam-notes <name>` | Write/update lecture-specific exam script |
+| `yt-to-note` | `/yt-to-note <url>` | Single video → one note |
+| `video-to-qa` | `/video-to-qa <url>` | Visual MCQ video → Q&A bank |
 
-## Pipelines
+## Lecture Pipeline (video has subtitles)
 
-**Lecture notes (video has subtitles):**
 ```
-1. /yt-playlist   → download subtitles + build raw per-video notes
-2. /exam-notes    → replace raw notes with exam-focused cheat-sheets
+1. /yt-playlist  →  fetch playlist info + download VTT subtitles
+2.               →  parse VTTs, read all transcript content
+3. /exam-notes   →  create write_<slug>_exam_notes.py + run it
+4.               →  write index note
+5.               →  git commit & push
 ```
 
-**Q&A bank (video has no subtitles, MCQ slides only):**
+Each lecture gets its own dedicated exam script in `.claude/scripts/`:
+
+| Lecture | Script |
+|---------|--------|
+| Word lecture (15 bài) | `write_exam_notes.py` |
+| PowerPoint lecture (5 bài) | `write_ppt_exam_notes.py` |
+| Excel lecture (8 bài) | `write_excel_exam_notes.py` |
+| New lectures | `write_<slug>_exam_notes.py` |
+
+## Q&A Bank Pipeline (video has no subtitles, MCQ slides)
+
 ```
-1. /video-to-qa   → download video → extract frames → read Q&A → write bank note
+1. /video-to-qa  →  download video → extract frames (ffmpeg) → read Q&A → write bank note
 ```
 
 ## Key Rules
 
-- Notes are always in **Vietnamese**
+- Notes always in **Vietnamese**
 - Subtitles: `yt-dlp --sub-lang vi --write-auto-subs`
-- Auto-captions have recognition errors — always verify key values
+- Auto-captions have recognition errors — verify key values against domain knowledge
 - **One note per video** (bài), not merged parts
 - Note filenames: `N - <Title>.md` (no lecture prefix, no "Bài")
-- Each exam note = steps + value tables + shortcuts + ⚠️ common mistakes
-- Obsidian wikilinks: `[[Lecture name]]` for index, `[[N - Title]]` between notes
+- Each exam note = steps + value tables + shortcuts + ⚠️ common mistake
+- Obsidian wikilinks: `[[Lecture name]]` for index, `[[N - Title|Bài N]]` between notes
 - Q&A bank: grouped by topic, answer in `> **Đáp án: ...**` blockquote
 - Full format spec: `.claude/rules/obsidian-note-format.md`
 
@@ -76,9 +88,10 @@ CNTT co ban/
 python     # 3.x, available as `python`
 yt-dlp     # pip install yt-dlp
 ffmpeg     # winget install "Gyan.FFmpeg"  ← required for /video-to-qa
+gh         # winget install GitHub.cli     ← for git push / repo management
 ```
 
-**yt-dlp YouTube workarounds:**
-- No JS runtime: use `--extractor-args "youtube:player_client=android,web"`
-- Bot detection (HTTP 429): add `--cookies-from-browser chrome` (close Chrome first)
-- Chrome DPAPI cookie error: try Edge, or export cookies manually via browser extension
+**yt-dlp YouTube workarounds (Windows):**
+- Always use: `--extractor-args "youtube:player_client=android,web"`
+- This bypasses: Chrome DPAPI cookie errors, Edge lock, bot detection
+- ffmpeg PATH after winget: `$env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH","User")`

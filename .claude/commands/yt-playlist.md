@@ -7,31 +7,47 @@ Convert a full YouTube playlist into structured Obsidian exam notes (index + one
 ```
 
 - `<playlist URL>` — full YouTube playlist URL
-- `<lecture name>` — folder and note prefix, e.g. `Word lecture`, `Excel lecture`
+- `<lecture name>` — folder and index note name, e.g. `Word lecture`, `Excel lecture`
+
+## Full Pipeline
+
+```
+YouTube playlist
+    ↓  Step 1 — fetch video list
+    ↓  Step 2 — download Vietnamese subtitles (VTT)
+    ↓  Step 3 — parse VTTs → read transcript content
+    ↓  Step 4 — write lecture-specific exam script
+    ↓  Step 5 — run script → generate N exam notes
+    ↓  Step 6 — write index note
+    ↓  Step 7 — git commit & push
+Notes/<lecture name>/<N> - <Title>.md  ✓
+```
+
+---
 
 ## Steps to Execute
 
-### Step 1 — Check dependencies
-```powershell
-python --version
-python -m yt_dlp --version
-# If missing: pip install yt-dlp
-```
+### Step 1 — Fetch video list
 
-### Step 2 — Get all video IDs and titles
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
 python -m yt_dlp --extractor-args "youtube:player_client=android,web" `
-  --flat-playlist --print "%(playlist_index)s|%(id)s|%(title)s" "<playlist URL>" 2>&1 `
+  --flat-playlist --print "%(playlist_index)s|%(id)s|%(title)s" `
+  "<playlist URL>" 2>&1 `
   | Where-Object { $_ -match "^\d+\|" } `
   | Out-File -Encoding utf8 "d:\Dev n Code\CNTT co ban\playlist_info.txt"
 Get-Content "d:\Dev n Code\CNTT co ban\playlist_info.txt" -Encoding utf8
 ```
 
-Skip any video with `NA` in the title (private/unavailable).
+Note video IDs and titles in **lesson order** (Bài 1 first). Playlists are often uploaded in reverse — match Bài number from the title text, not playlist index.
+Skip any video where title is `NA` (private/unavailable).
 
-### Step 3 — Download Vietnamese subtitles for all videos
+---
+
+### Step 2 — Download Vietnamese subtitles
+
 ```powershell
+$env:PYTHONIOENCODING = "utf-8"
 $outDir = "d:\Dev n Code\CNTT co ban\transcripts"
 python -m yt_dlp --extractor-args "youtube:player_client=android,web" `
   --write-auto-subs --sub-lang "vi" --skip-download `
@@ -39,33 +55,128 @@ python -m yt_dlp --extractor-args "youtube:player_client=android,web" `
   "<playlist URL>"
 ```
 
-### Step 4 — Parse VTTs and build per-video notes
-Run `.claude/scripts/build_notes.py` after updating its `VIDEO_MAP`, `TRANSCRIPTS_DIR`, and `NOTES_DIR` constants to match the current playlist.
+Confirm each `*.vi.vtt` exists in `transcripts/`. NA videos will error — ignore.
+
+---
+
+### Step 3 — Parse VTTs and read content
+
+Parse each VTT in playlist-index order:
 
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
-python ".claude\scripts\build_notes.py"
+$transcripts = "d:\Dev n Code\CNTT co ban\transcripts"
+for ($i = 1; $i -le <N>; $i++) {
+    $file = Get-ChildItem $transcripts -Filter "${i}_*.vi.vtt" | Select-Object -First 1
+    if ($file) {
+        Write-Host "=== $($file.Name) ===" -ForegroundColor Cyan
+        python ".claude\scripts\parse_vtt.py" $file.FullName
+        Write-Host ""
+    }
+}
 ```
 
-This produces one `.md` per video in `Notes\<lecture name>\`.
+Read all transcript output. For each Bài identify:
+- Main topic and key steps (menu paths)
+- Important values (numbers, settings, shortcuts)
+- Common mistakes mentioned by the instructor
 
-### Step 5 — Rewrite notes as exam cheat-sheets
+---
 
-Run `/exam-notes <lecture name>` — see `.claude/commands/exam-notes.md`.
+### Step 4 — Write the exam notes script
 
-### Step 6 — Verify structure
+Create `.claude/scripts/write_<slug>_exam_notes.py` modelled on an existing one (e.g. `write_excel_exam_notes.py`).
+
+Fill in `NOTES_DIR`, `LECTURE`, and the `NOTES` dict:
+
+```python
+NOTES_DIR = r"d:\Dev n Code\CNTT co ban\Notes\<lecture name>"
+LECTURE   = "<lecture name>"
+
+NOTES = {
+    1: ("Title", """### Section\n\n`Menu → Path → Command`\n\n| Key | Value |\n..."""),
+    2: ("Title", """..."""),
+}
+```
+
+Content rules per lesson (keep under ~30 lines each):
+- Steps in `` `Menu → Path → Command` `` backtick format
+- Tables for memorizable values — **bold** the most important
+- `> **Nhớ nhanh: ...**` for rules of thumb
+- One `⚠️` per lesson — the single most-tested gotcha
+- Keyboard shortcuts in `| Phím | Chức năng |` table
+- No prose, no transcript text
+
+Tags: course slug (`word`, `excel`, `powerpoint`) + `cntt-co-ban` + `exam-note`.
+
+---
+
+### Step 5 — Run the script
+
 ```powershell
-Get-ChildItem "d:\Dev n Code\CNTT co ban\Notes\<lecture name>" -Filter *.md | Select-Object Name
+$env:PYTHONIOENCODING = "utf-8"
+python ".claude\scripts\write_<slug>_exam_notes.py"
 ```
 
-Expected output:
-```
-<Lecture name>.md     ← index note
-1 - Title.md
-2 - Title.md
+---
+
+### Step 6 — Write the index note
+
+Create `Notes/<lecture name>/<lecture name>.md`:
+
+```markdown
+# <Lecture Name> — <Course subtitle>
+
+> 📺 [YouTube Playlist](<url>)
+> 🗂️ N bài
+
+---
+
+## Mục Lục
+
+| Bài | Chủ đề |
+|-----|--------|
+| [[1 - Title\|Bài 1]] | Title |
 ...
-N - Title.md
+
+---
+
+## Checklist Học Tập
+
+- [ ] Bài 1 — Title
+...
+
+---
+
+> [!tip] Mẹo học hiệu quả
+> Đọc note → Thực hành trong <App> → Tick checklist
 ```
+
+---
+
+### Step 7 — Verify, commit, push
+
+```powershell
+# Verify
+Get-ChildItem "d:\Dev n Code\CNTT co ban\Notes\<lecture name>" -Filter *.md | Select-Object Name
+
+# Commit and push
+git add "Notes/<lecture name>/" ".claude/scripts/write_<slug>_exam_notes.py"
+git commit -m "Add <lecture name> notes (N bài)"
+git push
+```
+
+Expected structure:
+```
+Notes/<lecture name>/
+  <lecture name>.md       ← index note
+  1 - <Title>.md
+  2 - <Title>.md
+  ...
+  N - <Title>.md
+```
+
+---
 
 ## Known Errors (Windows)
 
@@ -74,18 +185,17 @@ N - Title.md
 ERROR: Failed to decrypt with DPAPI
 ERROR: Could not copy Chrome cookie database
 ```
-**Fix:** Use the android player client instead of cookies — no browser needed:
-```powershell
---extractor-args "youtube:player_client=android,web"
-```
-This is already included in all commands above.
+**Fix:** `--extractor-args "youtube:player_client=android,web"` in all commands above bypasses this — no browser needed.
 
 ### yt-dlp: HTTP 429 Too Many Requests
-Non-fatal when using the android client. The android player API endpoint still responds. If persistent, add `--sleep-requests 2`.
+Non-fatal with the android client. If persistent, add `--sleep-requests 2`.
 
-### Subtitles unavailable (NA videos)
-Videos with `NA` in `playlist_info.txt` are private or deleted. Skip them — do not include their IDs in Step 3.
+### NA videos
+Videos with `NA` title are private/deleted. Subtitle download will error — ignore and continue.
+
+---
 
 ## Note Format
 
 Follow `.claude/rules/obsidian-note-format.md` exactly.
+Navigation: `← [[N-1 - PrevTitle|Bài N-1]]  |  [[Lecture|📋 Mục lục]]  |  [[N+1 - NextTitle|Bài N+1]] →`
