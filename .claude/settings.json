@@ -4,7 +4,22 @@
       "PowerShell(gh auth status 2>&1)",
       "PowerShell(winget install --id GitHub.cli --accept-package-agreements --accept-source-agreements)",
       "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); gh --version)",
-      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); gh auth status 2>&1)"
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); gh auth status 2>&1)",
+      "PowerShell(Get-Partition)",
+      "PowerShell(bcdedit /enum firmware)",
+      "PowerShell(Get-Partition | ForEach-Object { $p = $_; $vol = Get-Volume -Partition $p -ErrorAction SilentlyContinue; [PSCustomObject]@{ Disk=$p.DiskNumber; Part=$p.PartitionNumber; Letter=$p.DriveLetter; SizeGB=[math]::Round\\($p.Size/1GB,1\\); GptType=$p.GptType; FS=$vol.FileSystemType; Label=$vol.FileSystemLabel } } | Format-Table -AutoSize)",
+      "PowerShell(Start-Process powershell -Verb RunAs -ArgumentList '-NoExit','-Command','bcdedit /enum firmware' -Wait)",
+      "PowerShell(Get-Partition | Select-Object DiskNumber, PartitionNumber, DriveLetter, @{n='SizeGB';e={[math]::Round\\($_.Size/1GB,1\\)}} | Format-Table -AutoSize)",
+      "PowerShell(python -m yt_dlp --version)",
+      "Bash(python -c \"from PIL import Image; img = Image.open\\('data/1.png'\\); print\\(img.size\\)\")",
+      "Bash(python -c ' *)",
+      "Bash(python -c \"import shutil; shutil.rmtree\\('d:/Dev n Code/CNTT co ban/data/chunks'\\); print\\('Cleaned up chunks folder'\\)\")",
+      "Bash(cp \"d:/Dev n Code/CNTT co ban/.claude/skills/screenshot-to-qa.md\" \"d:/Dev n Code/CNTT co ban/.claude/commands/screenshot-to-qa.md\")",
+      "Bash(cat \"d:/Dev n Code/CNTT co ban/.claude/skills/screenshot-to-qa.md\" > \"d:/Dev n Code/CNTT co ban/.claude/commands/screenshot-to-qa.md\")"
+    ],
+    "additionalDirectories": [
+      "d:\\Dev n Code\\CNTT co ban\\.claude\\skills",
+      "d:\\Dev n Code\\CNTT co ban\\.claude\\commands"
     ]
   }
 }
